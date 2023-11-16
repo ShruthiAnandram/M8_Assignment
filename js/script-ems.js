@@ -71,6 +71,7 @@ function buildGrid(employees) {
         })
 
         let cellDelete = row.insertCell();
+        cellDelete.className = 'btn btn-sm btn-danger delete'; 
         cellDelete.innerHTML = 'X';
         
         // INCREMENT THE NUMBER OF EMPLOYEES IN THE TABLE
@@ -82,11 +83,7 @@ function buildGrid(employees) {
 
 function resetFormAndSetFocus() {
         // RESET THE FORM
-        document.querySelector('#id').value = '';
-        document.querySelector('#name').value = '';
-        document.querySelector('#extension').value = '';
-        document.querySelector('#email').value = '';
-        document.querySelector('#department').value = '';
+        document.querySelector('#addForm').value = '';
 
         // SET FOCUS BACK TO THE ID TEXT BOX
         document.querySelector('#id').focus;
@@ -134,11 +131,11 @@ function deleteEmployee(employees) {
                 let selectedRow = e.target.parentElement;
                 let cells = selectedRow.getElementsByTagName('td');
 
-                // DELETE THE ROW IN THE TABLE
-                selectedTable.deleteRow(e.target.parentElement.rowIndex.value);
-                
+                // DELETE THE SELECTED ROW IN THE TABLE
+                let rowIndex = selectedTable.deleteRow(e.target.parentElement.rowIndex);
+
                 // DELETE THE EMPLOYEE IN THE EMPLOYEES ARRAY THAT WAS SELECTED FOR DELETION
-                employees = employees.filter(emp => emp.name !== cells[1].innerHTML);
+                employees.splice(rowIndex, 1);
 
                 // UPDATE THE EMPLOYEES ARRAY TO THE LOCAL STORAGE 
                 localStorage.setItem('employees', JSON.stringify(employees));
